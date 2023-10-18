@@ -21,18 +21,17 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin()
                 .and()
-                .headers(headers -> headers.frameOptions().disable())
-                .authorizeRequests(auth -> {
-                    auth.antMatchers("/actuator/shutdown").permitAll();
-                    auth.antMatchers("/api/register", "/h2-console").permitAll();
-                    auth.antMatchers("/api/**").authenticated();
-                })
+                .authorizeHttpRequests(auth -> auth
+                        .regexMatchers("/api/register", "/actuator/shutdown",
+                                "/h2-console").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .build();
     }
 
