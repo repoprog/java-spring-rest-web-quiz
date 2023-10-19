@@ -17,6 +17,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                //for h2-console display error
+                .headers().frameOptions().disable()
+                .and()
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin()
@@ -27,6 +30,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .build();
+
     }
 
     @Bean
