@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -21,8 +23,7 @@ public class Quiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    private long id;
     //UZYJ @Validate w @PostMapping zeby dzialało!
     // not null and not epmpty
     @NotBlank(message = "Quiz powinien zawierać tutuł")
